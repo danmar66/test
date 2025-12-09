@@ -6,6 +6,17 @@ import {
 } from "@shopify/shopify-app-react-router/server";
 import { PrismaSessionStorage } from "@shopify/shopify-app-session-storage-prisma";
 import prisma from "./db.server";
+import {logger} from "./service/logger.server";
+import {type AfterAuthOptions, getOrCreateMerchant} from "./repository/merchant/get-or-create-merchant";
+
+const afterAuth = async ({ session, admin }: AfterAuthOptions) => {
+  try {
+    logger.info("Running afterAuth for shop", { shop: session.shop });
+    await getOrCreateMerchant({ session, admin });
+  } catch (error) {
+    logger.error("Error while executing afterAuth", error);
+  }
+};
 
 const shopify = shopifyApp({
   apiKey: process.env.SHOPIFY_API_KEY,
@@ -16,9 +27,7 @@ const shopify = shopifyApp({
   authPathPrefix: "/auth",
   sessionStorage: new PrismaSessionStorage(prisma),
   distribution: AppDistribution.AppStore,
-  ...(process.env.SHOP_CUSTOM_DOMAIN
-    ? { customShopDomains: [process.env.SHOP_CUSTOM_DOMAIN] }
-    : {}),
+  hooks: { afterAuth },
 });
 
 export default shopify;

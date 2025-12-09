@@ -8,7 +8,7 @@ import {updateMetafields} from "../../service/offer/update-metafields";
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const { merchant } = await requireMerchantFromAdmin(request);
 
-  if (!merchant) throw new Response("Unauthorized", { status: 401 });
+  if (!merchant) throw new Response("Merchant unauthorized", { status: 401 });
 
   const design = await prisma.design.findUnique({
     where: { merchantId: merchant.id }
