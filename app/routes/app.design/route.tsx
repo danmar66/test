@@ -2,7 +2,7 @@ import {type ActionFunctionArgs, data, type LoaderFunctionArgs} from "react-rout
 import { useLoaderData } from "react-router";
 import DesignCustomizationPage from "./components/DesignCustomizationPage/DesignCustomizationPage";
 import {requireMerchantFromAdmin} from "../../service/require-merchant-from-admin";
-import prisma from "../../clients/db.server";
+import prisma from "../../db.server";
 import {updateMetafields} from "../../service/offer/update-metafields";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {

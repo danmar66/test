@@ -1,7 +1,7 @@
 import OfferForm from "./components/OfferForm/OfferForm";
 import {ActionFunctionArgs, data, LoaderFunctionArgs, redirect, useLoaderData} from "react-router";
 import {requireMerchantFromAdmin} from "../../service/require-merchant-from-admin";
-import prisma from "../../clients/db.server";
+import prisma from "../../db.server";
 import {Prisma} from "@prisma/client";
 import {splitDateAndTime} from "../../utils/splitDateAndTime";
 import updateOffer from "../../repository/offer/update-offer";
