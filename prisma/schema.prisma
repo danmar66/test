@@ -9,8 +9,8 @@ generator client {
 // enough when changing adapters.
 // See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
 datasource db {
-  provider = "sqlite"
-  url      = "file:dev.sqlite"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Session {
@@ -29,4 +29,63 @@ model Session {
   locale        String?
   collaborator  Boolean?  @default(false)
   emailVerified Boolean?  @default(false)
+}
+
+model Merchant {
+  id                      Int       @id @default(autoincrement())
+  shop                    String    @unique
+  shopId                  String
+  email                   String
+  currencyCode            String
+  themeExtensionActivated Boolean   @default(false)
+  infoBannerHide          Boolean   @default(false)
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime?
+  Offer                   Offer[]
+  design                  Design?
+}
+
+model Offer {
+  id         String @id @default(cuid())
+  merchantId Int
+
+  offerName        String
+  status           String
+  triggerType      String
+  triggerCondition String
+  minQuantity      Int?
+  maxQuantity      Int?
+  minAmount        Float?
+  maxAmount        Float?
+
+  rewardAction      String
+  rewardGiftsAmount Int?
+  discountType      String
+  discountValue     Int
+
+  scheduleType String
+  hasEndDate   Boolean   @default(false)
+  startAt      DateTime?
+  endAt        DateTime?
+
+  selectedTriggerProducts    Json?
+  selectedTriggerCollections Json?
+  selectedRewardProducts     Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  merchant Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+}
+
+model Design {
+  id         Int      @id @default(autoincrement())
+  merchantId Int      @unique
+  merchant   Merchant @relation(fields: [merchantId], references: [id])
+
+  picker_design Json?
+  offers_design Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
