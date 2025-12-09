@@ -1,0 +1,7 @@
+.error {
+  display: flex;
+  align-items: center;
+  --s-icon-color-25041: rgba(142, 11, 33, 1);
+  color: rgb(142, 11, 33);
+  margin: var(--p-space-200) 0 0 0;
+}
