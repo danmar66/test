@@ -2,12 +2,11 @@
 
 client_id = "5b403d8257f7b449460b4798203139a9"
 name = "test-deploy"
-application_url = "https://example.com"
+application_url = "https://test-kz5i.onrender.com"
 embedded = true
 
 [build]
 automatically_update_urls_on_dev = true
-include_config_on_deploy = true
 
 [webhooks]
 api_version = "2026-01"
@@ -25,4 +24,4 @@ api_version = "2026-01"
 scopes = "write_products"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [ "https://test-kz5i.onrender.com/api/auth" ]
